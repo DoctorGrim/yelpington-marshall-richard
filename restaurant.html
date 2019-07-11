@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<h1>A page</h1>
+<h1 id="name"></h1>
+<p id="address"></p>
+<p id="phone"></p>
+<p id="hours"></p>
+<p id="website"></p>
+<p id="notes"></p>
+
+<!-- Add the map and start formatting -->
+<body>
+  <script>
+    let fragment = window.location.hash.slice(1); 
+    //Use this fragment as the id to help fetch all the info
+    //Fetch -> parse -> grab an element -> create elements -> add data to element -> append element
+    let restaurantInfoPromise = fetchRestaurantInfoPromise(fragment);
+
+    function fetchRestaurantInfoPromise(restaurant){
+      return fetch(`/${restaurant}.json`)
+        .then(request => request.json())
+        .then(json => {
+          document.getElementById('name').textContent = json.name;
+          document.getElementById('address').textContent = json.address;
+          document.getElementById('phone').textContent = json.phone;
+          document.getElementById('hours').textContent = json.hours;
+          document.getElementById('website').textContent = json.website;
+          document.getElementById('notes').textContent = json.notes; //Change this to handle an array
+          setAddress(json.address);
+        })
+    }
+
+    function setAddress(address){
+      let urlAddress = encodeURIComponent(address);
+      console.log(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`);
+      fetch(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`)
+        .then(request => request.json())
+        .then(json => {
+          console.log(json[0].lat); //This just logs the lat. Change it to focus the map. 
+          console.log(json[0].lon);
+        })
+      }
+  </script>
+</body>
+</html> 
