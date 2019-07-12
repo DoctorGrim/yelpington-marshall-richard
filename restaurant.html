@@ -1,51 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
 </head>
-<h1>A page</h1>
 <h1 id="name"></h1>
 <p id="address"></p>
 <p id="phone"></p>
 <p id="hours"></p>
 <p id="website"></p>
-<p id="notes"></p>
-
+<div id="notes-container"></div>
+<div id="map"></div>
 <!-- Add the map and start formatting -->
+
 <body>
   <script>
-    let fragment = window.location.hash.slice(1); 
-    //Use this fragment as the id to help fetch all the info
-    //Fetch -> parse -> grab an element -> create elements -> add data to element -> append element
+    let fragment = window.location.hash.slice(1);
     let restaurantInfoPromise = fetchRestaurantInfoPromise(fragment);
 
-    function fetchRestaurantInfoPromise(restaurant){
+    var map = L.map("map").setView([44.477299, -73.213094], 16);
+
+    L.tileLayer("https://{s}.tile.OpenStreetMap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    function fetchRestaurantInfoPromise(restaurant) {
       return fetch(`/${restaurant}.json`)
         .then(request => request.json())
         .then(json => {
-          document.getElementById('name').textContent = json.name;
-          document.getElementById('address').textContent = json.address;
-          document.getElementById('phone').textContent = json.phone;
-          document.getElementById('hours').textContent = json.hours;
-          document.getElementById('website').textContent = json.website;
-          document.getElementById('notes').textContent = json.notes; //Change this to handle an array
+          document.getElementById("name").textContent = json.name;
+          document.getElementById("address").textContent = json.address;
+          document.getElementById("phone").textContent = json.phone;
+          document.getElementById("hours").textContent = json.hours;
+          document.getElementById("website").textContent = json.website;
+          document.getElementById("notes").textContent = json.notes; //Change this to handle an array
           setAddress(json.address);
-        })
+        });
     }
 
-    function setAddress(address){
+    function setAddress(address) {
       let urlAddress = encodeURIComponent(address);
-      console.log(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`);
-      fetch(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`)
+      console.log(
+        `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
+      );
+      fetch(
+        `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
+      )
         .then(request => request.json())
         .then(json => {
-          console.log(json[0].lat); //This just logs the lat. Change it to focus the map. 
+          console.log(json[0].lat); //This just logs the lat. Change it to focus the map.
           console.log(json[0].lon);
-        })
-      }
+          map = L.map("map").setView([json[0].lat, json[0].lon], 16)
+        });
+    }
   </script>
 </body>
-</html> 
+
+</html>
