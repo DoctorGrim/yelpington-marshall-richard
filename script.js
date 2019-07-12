@@ -24,7 +24,7 @@ fetch("all.json")
   })
   .then(function(allRestaurants) {
     allRestaurants.forEach(getInfo);
-    allRestaurants.forEach(makeMarker);
+    allRestaurants.forEach(makeMarker); //This is throwing an error
   });
 
 function getInfo(theRestaurant) {
