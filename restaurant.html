@@ -24,42 +24,75 @@
     let fragment = window.location.hash.slice(1);
     let restaurantInfoPromise = fetchRestaurantInfoPromise(fragment);
 
-    var map = L.map("map").setView([44.477299, -73.213094], 16);
-
-    L.tileLayer("https://{s}.tile.OpenStreetMap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
     function fetchRestaurantInfoPromise(restaurant) {
       return fetch(`/${restaurant}.json`)
         .then(request => request.json())
-        .then(json => {
-          document.getElementById("name").textContent = json.name;
-          document.getElementById("address").textContent = json.address;
-          document.getElementById("phone").textContent = json.phone;
-          document.getElementById("hours").textContent = json.hours;
-          document.getElementById("website").textContent = json.website;
-          document.getElementById("notes").textContent = json.notes; //Change this to handle an array
-          setAddress(json.address);
+        .then(json => appendLatLon(json))
+    }
+
+    function appendLatLon(rest) {
+      let urlAddress = encodeURIComponent(rest.address);
+      fetch(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`)
+      .then(request => request.json())
+      .then(json => {
+        rest.lat = json[0].lat;
+        rest.lon = json[0].lon;
+        return rest;
+      })
+      .then(fullRestInfo=>{
+        buildPage(fullRestInfo);
+        makeMap(fullRestInfo);
+      })
+    }
+
+    function buildPage(restObject){
+      document.getElementById("name").textContent = restObject.name;
+      document.getElementById("address").textContent = restObject.address;
+      document.getElementById("phone").textContent = restObject.phone;
+      document.getElementById("hours").textContent = restObject.hours;
+      document.getElementById("website").textContent = restObject.website;
+      restObject.notes.forEach(note =>{
+        document.getElementById("notes-container").appendChild(document.createElement("p")).textContent = note;
+      })
+    }
+
+    function makeMap(restObject){
+      var map = L.map("map").setView([restObject.lat, restObject.lon], 20);
+
+      L.tileLayer("https://{s}.tile.OpenStreetMap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      L.marker([restObject.lat, restObject.lon]) ///make universal
+        .addTo(map)
+        .bindPopup(`${restObject.name}<br>${restObject.address}`)
+        .on('mouseover', function (e) {
+          this.openPopup();
+         })
+        .on('mouseout', function (e) {
+          this.closePopup();
+         })
+        .on('click', function(e){
+          window.location = `${restObject.website}`;
         });
     }
 
-    function setAddress(address) {
-      let urlAddress = encodeURIComponent(address);
-      console.log(
-        `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
-      );
-      fetch(
-        `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
-      )
-        .then(request => request.json())
-        .then(json => {
-          console.log(json[0].lat); //This just logs the lat. Change it to focus the map.
-          console.log(json[0].lon);
-          map = L.map("map").setView([json[0].lat, json[0].lon], 16)
-        });
-    }
+
+    // function setAddress(address) {
+    //   let urlAddress = encodeURIComponent(address);
+    //   console.log(
+    //     `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
+    //   );
+    //   fetch(
+    //     `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
+    //   )
+    //     .then(request => request.json())
+    //     .then(json => {
+    //       console.log(json[0].lat); //This just logs the lat. Change it to focus the map.
+    //       console.log(json[0].lon);
+    //       map.setView([json[0].lat, json[0].lon], 16)
+    //     });
+    // }
   </script>
 </body>
 
