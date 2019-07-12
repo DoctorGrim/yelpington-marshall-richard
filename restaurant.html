@@ -9,91 +9,14 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<h1 id="name"></h1>
-<p id="address"></p>
-<p id="phone"></p>
-<p id="hours"></p>
-<p id="website"></p>
+<div id="content-container"></div>
 <div id="notes-container"></div>
 <div id="map"></div>
-<!-- Add the map and start formatting -->
 
 <body>
-  <script>
-    let fragment = window.location.hash.slice(1);
-    let restaurantInfoPromise = fetchRestaurantInfoPromise(fragment);
-
-    function fetchRestaurantInfoPromise(restaurant) {
-      return fetch(`/${restaurant}.json`)
-        .then(request => request.json())
-        .then(json => appendLatLon(json))
-    }
-
-    function appendLatLon(rest) {
-      let urlAddress = encodeURIComponent(rest.address);
-      fetch(`https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`)
-      .then(request => request.json())
-      .then(json => {
-        rest.lat = json[0].lat;
-        rest.lon = json[0].lon;
-        return rest;
-      })
-      .then(fullRestInfo=>{
-        buildPage(fullRestInfo);
-        makeMap(fullRestInfo);
-      })
-    }
-
-    function buildPage(restObject){
-      document.getElementById("name").textContent = restObject.name;
-      document.getElementById("address").textContent = restObject.address;
-      document.getElementById("phone").textContent = restObject.phone;
-      document.getElementById("hours").textContent = restObject.hours;
-      document.getElementById("website").textContent = restObject.website;
-      restObject.notes.forEach(note =>{
-        document.getElementById("notes-container").appendChild(document.createElement("p")).textContent = note;
-      })
-    }
-
-    function makeMap(restObject){
-      var map = L.map("map").setView([restObject.lat, restObject.lon], 20);
-
-      L.tileLayer("https://{s}.tile.OpenStreetMap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-      L.marker([restObject.lat, restObject.lon]) ///make universal
-        .addTo(map)
-        .bindPopup(`${restObject.name}<br>${restObject.address}`)
-        .on('mouseover', function (e) {
-          this.openPopup();
-         })
-        .on('mouseout', function (e) {
-          this.closePopup();
-         })
-        .on('click', function(e){
-          window.location = `${restObject.website}`;
-        });
-    }
-
-
-    // function setAddress(address) {
-    //   let urlAddress = encodeURIComponent(address);
-    //   console.log(
-    //     `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
-    //   );
-    //   fetch(
-    //     `https://nominatim.openstreetmap.org/search/?q=${urlAddress}&format=json`
-    //   )
-    //     .then(request => request.json())
-    //     .then(json => {
-    //       console.log(json[0].lat); //This just logs the lat. Change it to focus the map.
-    //       console.log(json[0].lon);
-    //       map.setView([json[0].lat, json[0].lon], 16)
-    //     });
-    // }
-  </script>
+  <script src="script.js"> </script>
 </body>
 
 </html>
