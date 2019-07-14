@@ -5,11 +5,13 @@
 body {
   display: flex;
   flex-direction: column;
+  justify-content: stretch;
   height: 100vh;
 }
 .map-container {
   height: 90vh;
   flex-shrink: 3;
+  min-height: 0 ;
 }
 #map {
   height: 100%;
@@ -21,7 +23,7 @@ header {
 
 h1 {
   font-family: helvetica;
-  padding: 10px;
+  padding: 5px;
 }
 aside {
   background-color: orange;
@@ -42,12 +44,12 @@ a:hover {
   line-height: 1.5rem;
   padding: 20px;
   transition: all 0.5s ease-in-out;
-  height: 25px;
+  max-height: 25px;
 }
 
-.expandable:hover {
+ .expandable:hover{
   height: 60vh;
-  max-height: 300px;
+  max-height: 320px;
 }
 
 #content-container {
@@ -63,4 +65,8 @@ a:hover {
   padding: 10px;
   margin: 5px;
   border-radius: 15px;
+}
+
+#container{
+  padding: 10px;
 }
