@@ -28,6 +28,8 @@ h1 {
 aside {
   background-color: orange;
   flex-grow: 3;
+  position: relative;
+  padding: 10px;
 }
 a {
   display: block;
@@ -42,18 +44,24 @@ a:hover {
 .expandable {
   overflow: hidden;
   line-height: 1.5rem;
-  padding: 20px;
+  padding-bottom: 25px;
   transition: all 0.5s ease-in-out;
   max-height: 25px;
 }
 
  .expandable:hover{
   height: 60vh;
-  max-height: 320px;
+  max-height: 75vh;
+  overflow: scroll;
+
 }
 
 #content-container {
-  padding: 20px;
+  padding: 10px;
+}
+#content-container > h1 {
+  padding: 0px;
+  padding-bottom: 10px;
 }
 #notes-container {
   height: auto;
@@ -69,4 +77,16 @@ a:hover {
 
 #container{
   padding: 10px;
+}
+
+aside > i {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  font-size: 1.5rem;
+  color: grey;
+}
+
+.shift-down{
+  padding-top: 10px;
 }
