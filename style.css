@@ -1,8 +1,75 @@
 #map {
-    height: 800px;
-  }
+  height: 500px;
+}
 
+a {
+  display: block;
+  
+}
 
-  a{
-      display: block;
+/* .hs {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns:
+    10px
+    repeat(11, calc(50% - 40px))
+    10px;
+  grid-template-rows: minmax(150px, 1fr);
+}
+
+.hs::before,
+.hs::after {
+  content: '';
+} */
+
+/*CSS for horizontal scrolling is modified from 
+https://uxdesign.cc/creating-horizontal-scrolling-containers-the-right-way-css-grid-c256f64fc585 */
+:root {
+    --gutter: 20px;
   }
+  
+  .grid-wrapper {
+    padding: var(--gutter) 0;
+    display: grid;
+    grid-gap: var(--gutter) 0;
+    grid-template-columns: var(--gutter) 1fr var(--gutter);
+    align-content: start;
+  }
+  
+  .grid-wrapper > * {
+    grid-column: 2 / -2;
+  }
+  
+  .grid-wrapper > .full {
+    grid-column: 1 / -1;
+  }
+  
+  .horizontal-scroll {
+    display: grid;
+    grid-gap: calc(var(--gutter) / 2);
+    grid-template-columns: 10px repeat(11, calc(15% - var(--gutter) * 2)) 10px;
+    grid-template-rows: minmax(150px, 1fr);
+    
+    /* justify-content: center; */
+
+    overflow-x: scroll;
+    scroll-snap-type: x proximity;
+    padding-bottom: calc(.75 * var(--gutter));
+    margin-bottom: calc(-.5 * var(--gutter));
+  }
+  
+  .horizontal-scroll:before,
+  .horizontal-scroll:after {
+    content: '';
+  }
+  
+ #container > a {
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    text-align: center;
+    /* align-self: center; */ /*This shrinks the content container*/
+    color: red;
+    text-decoration: none;
+    font-size: 2em; 
+ }

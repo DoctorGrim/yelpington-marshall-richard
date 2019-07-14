@@ -50,6 +50,7 @@ function addName(theRestaurant) {
   const name = document.createElement("a");
   name.textContent = theRestaurant.name;
   name.href = `http://localhost:8080/restaurant.html#${theRestaurant.id}`;
+  name.style.backgroundImage = "url('/assests/placeholder.jpg')";
 
   element.appendChild(name);
 }
