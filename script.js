@@ -7,7 +7,8 @@ if (window.location == "http://127.0.0.1:8080/") {
     .then(function(allRestaurants) {
       allRestaurants.forEach(fetchRestaurantInfoPromise);
     });
-}else{ //Otherwise only use fetchRestaurantInfoPromise for the restaurant determined by the hash
+} else {
+  //Otherwise only use fetchRestaurantInfoPromise for the restaurant determined by the hash
   let fragment = window.location.hash.slice(1);
   fetchRestaurantInfoPromise(fragment);
 }
@@ -36,7 +37,8 @@ function appendLatLon(rest) {
       if (window.location != "http://127.0.0.1:8080/") {
         buildRestaurantPage(fullRestInfo);
         makeMap(fullRestInfo);
-      } else {//Otherwise you're on the homepage and you just need to make the map and add the href locations to the names. 
+      } else {
+        //Otherwise you're on the homepage and you just need to make the map and add the href locations to the names.
         makeMap(fullRestInfo);
         addName(fullRestInfo);
       }
@@ -94,8 +96,15 @@ function makeMap(restObject) {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
-
-  L.marker([restObject.lat, restObject.lon])
+  let orangeIcon = new L.Icon({
+    iconUrl: 'marker-icon-2x-orange.png',
+    shadowUrl: 'marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+  L.marker([restObject.lat, restObject.lon],{icon: orangeIcon})
     .addTo(map)
     .bindPopup(`${restObject.name}<br>${restObject.address}`)
     .on("mouseover", function(e) {

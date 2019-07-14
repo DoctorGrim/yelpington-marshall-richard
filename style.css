@@ -1,8 +1,66 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.map-container {
+  height: 90vh;
+  flex-shrink: 3;
+}
 #map {
-    height: 800px;
-  }
+  height: 100%;
+}
+header {
+  background-color: gray;
+  color: whitesmoke;
+}
 
+h1 {
+  font-family: helvetica;
+  padding: 10px;
+}
+aside {
+  background-color: orange;
+  flex-grow: 3;
+}
+a {
+  display: block;
+  text-decoration: none;
+  color: whitesmoke;
+  font-family: helvetica;
+}
+a:hover {
+  color: gray;
+}
 
-  a{
-      display: block;
-  }
+.expandable {
+  overflow: hidden;
+  line-height: 1.5rem;
+  padding: 20px;
+  transition: all 0.5s ease-in-out;
+  height: 25px;
+}
+
+.expandable:hover {
+  height: 60vh;
+  max-height: 300px;
+}
+
+#content-container {
+  padding: 20px;
+}
+#notes-container {
+  height: auto;
+}
+
+#notes-container p{
+  background-color: gray;
+  color: whitesmoke;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+}
