@@ -1,21 +1,29 @@
+/* Remove all padding and margin from the browser */
 * {
   padding: 0;
   margin: 0;
 }
+
+/* Lays out all page elements in a flex container */
 body {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   height: 100vh;
 }
+
+/* Sets the initial height of the map container */
 .map-container {
   height: 90vh;
   flex-shrink: 3;
   min-height: 0 ;
 }
+
+/* The map will fill it's container */
 #map {
   height: 100%;
 }
+
 header {
   background-color: gray;
   color: whitesmoke;
@@ -25,37 +33,47 @@ h1 {
   font-family: helvetica;
   padding: 5px;
 }
+
+/* Styles the aside which is the expandable div. Position relative allows for the 
+double up arrow to stay in the same place once expanded */
 aside {
   background-color: orange;
   flex-grow: 3;
-  position: relative;
+  position: relative; 
   padding: 10px;
 }
+
+/* Allows for the restaurant links to stack vertically as blocks */
 a {
   display: block;
   text-decoration: none;
   color: whitesmoke;
   font-family: helvetica;
 }
+
 a:hover {
   color: gray;
 }
 
+/* Styles the collapsed version of the expandable element */
 .expandable {
-  overflow: hidden;
+  overflow: hidden; /*Makes the element 'collapsed' */
   line-height: 1.5rem;
   padding-bottom: 25px;
-  transition: all 0.5s ease-in-out;
-  max-height: 25px;
+  transition: all 0.5s ease-in-out; /*Allows for a smooth transition */
+  max-height: 25px; /* Sets the initial height of the collapsed element */
 }
 
+/* Styles the expanded element. Stops it from covering the whole map and allows
+for scrolling down to see additional content */
  .expandable:hover{
   height: 60vh;
-  max-height: 75vh;
+  max-height: 75vh; 
   overflow: scroll;
 
 }
 
+/* Gives padding for the restaurant page information */
 #content-container {
   padding: 10px;
 }
@@ -63,22 +81,34 @@ a:hover {
   padding: 0px;
   padding-bottom: 10px;
 }
+
+/* Makes the index.html restaurant name style match the restaurant page */
+.shift-down{
+  padding-top: 10px;
+}
+#restaurant-list{
+  padding: 10px;
+}
+
+/* Allows for a variable number of notes */
 #notes-container {
   height: auto;
 }
-
+/* Styles the notes */
 #notes-container p{
   background-color: gray;
   color: whitesmoke;
-  padding: 10px;
+  padding: 5px;
   margin: 5px;
   border-radius: 15px;
 }
 
-#container{
+/* Styles the notes header */
+.subheader {
   padding: 10px;
 }
 
+/* Styles the double-up arrow */
 aside > i {
   position: absolute;
   left: 50%;
@@ -87,6 +117,6 @@ aside > i {
   color: grey;
 }
 
-.shift-down{
-  padding-top: 10px;
-}
+
+
+

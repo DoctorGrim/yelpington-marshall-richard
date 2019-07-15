@@ -47,7 +47,7 @@ function appendLatLon(rest) {
 
 //Adds the restaurant names with links to the homepage.
 function addName(theRestaurant) {
-  const element = document.getElementById("container");
+  const element = document.getElementById("restaurant-list");
 
   const name = document.createElement("a");
   name.textContent = theRestaurant.name;
@@ -56,8 +56,11 @@ function addName(theRestaurant) {
   element.appendChild(name);
 }
 
-//Creat
+//Creates all the elements for the restaurant page using the restaurant object information
 function buildRestaurantPage(restObject) {
+  // Update the tab name with the restaurant name
+  document.title = restObject.name;
+  
   let contentContainer = document.getElementById("content-container");
 
   let name = (contentContainer.appendChild(
@@ -84,11 +87,14 @@ function buildRestaurantPage(restObject) {
 }
 
 let map = false;
-
+//Draw the map if it hasn't already been drawn. This allows the function to be used for 
+//a single restaurant or all the restaurants.
 function makeMap(restObject) {
   if (window.location == "http://127.0.0.1:8080/" && map == false) {
+    //Sets the view explicitly to be over all the restaurants
     map = L.map("map").setView([44.477299, -73.213094], 16);
   } else if (map == false) {
+    // Sets the view to be over the single restaurant
     map = L.map("map").setView([restObject.lat, restObject.lon], 20);
   }
 
@@ -96,15 +102,20 @@ function makeMap(restObject) {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
+
+  // Sets the marker appearance
   let orangeIcon = new L.Icon({
-    iconUrl: 'marker-icon-2x-orange.png',
-    shadowUrl: 'marker-shadow.png',
+    iconUrl: "marker-icon-2x-orange.png",
+    shadowUrl: "marker-shadow.png",
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
   });
-  L.marker([restObject.lat, restObject.lon],{icon: orangeIcon})
+
+  // Adds the markers at the restaurant location(s) and gives them the pop up with
+  // hoverable text and the ability to click them to go to a link. 
+  L.marker([restObject.lat, restObject.lon], { icon: orangeIcon })
     .addTo(map)
     .bindPopup(`${restObject.name}<br>${restObject.address}`)
     .on("mouseover", function(e) {
@@ -114,10 +125,10 @@ function makeMap(restObject) {
       this.closePopup();
     })
     .on("click", function(e) {
+      // If you're on the homepage, navigate to our zoomed in view. 
+      // If you're on the zoomed in page then go to the restaurants external site.
       if (window.location == "http://127.0.0.1:8080/") {
-        window.location = `http://127.0.0.1:8080/restaurant.html#${
-          restObject.id
-        }`;
+        window.location = `http://127.0.0.1:8080/restaurant.html#${restObject.id}`;
       } else {
         window.location = `${restObject.website}`;
       }

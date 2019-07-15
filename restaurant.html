@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://kit.fontawesome.com/3790183da0.js"></script>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- The title is updated in the JavaScript -->
+  <title>VCET Food Finder!</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Using Font Awesome for the double arrow on the expandable bottom div -->
+  <script src="https://kit.fontawesome.com/3790183da0.js"></script>
+</head>
+
+<body>
   <header>
+    <!-- Links to homepage -->
     <h1><a href="http://127.0.0.1:8080/">VCET FOOD FINDER!</a></h1>
   </header>
+
+  <!-- Contains the map elements -->
   <section class="map-container">
     <div id="map"></div>
   </section>
+
+  <!-- Contains the specific restaurant information. Elements are created and updated in the JS -->
   <aside class="expandable">
     <i class="fas fa-angle-double-up"></i>
     <div id="content-container"></div>
-    <div id="notes-container"></div>
+    <!-- User comments are given their own div for iteration over the array and for styling -->
+    <div id="notes-container">
+      <h3 class="subheader">Comments</h3>
+    </div>
   </aside>
-  <body>
-    <script src="script.js"></script>
-  </body>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
