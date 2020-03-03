@@ -1,6 +1,6 @@
 //If you're on the homepage get all the restaurant names and iterate over fetchRestaurantInfoPromise
 if (window.location == "http://127.0.0.1:8080/") {
-  fetch("all.json")
+  fetch("restaurants/all.json")
     .then(function(response) {
       return response.json();
     })
@@ -15,7 +15,7 @@ if (window.location == "http://127.0.0.1:8080/") {
 
 //Gets all the restaurant information
 function fetchRestaurantInfoPromise(restaurant) {
-  return fetch(`/${restaurant}.json`)
+  return fetch(`restaurants/${restaurant}.json`)
     .then(request => request.json())
     .then(json => appendLatLon(json));
 }
@@ -105,8 +105,8 @@ function makeMap(restObject) {
 
   // Sets the marker appearance
   let orangeIcon = new L.Icon({
-    iconUrl: "marker-icon-2x-orange.png",
-    shadowUrl: "marker-shadow.png",
+    iconUrl: "/media/marker-icon-2x-orange.png",
+    shadowUrl: "/media/marker-shadow.png",
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
